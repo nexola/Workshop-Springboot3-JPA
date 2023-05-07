@@ -13,6 +13,6 @@ public class UserResource {
     @GetMapping // Notação composta que serve como atalho para o RequestMapping
     public ResponseEntity<User> findAll() {
         User u = new User(1L, "Maria", "maria@gmail.com", "99999999", "12345");
-        return ResponseEntity.ok().body(u);
+        return ResponseEntity.ok().body(u); // Retorna como corpo o objeto passado como parâmetro
     }
 }

@@ -1,10 +1,16 @@
 package com.cursoudemy.curso.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
-public class User implements Serializable {
+@Entity // Informa que a classe também é uma entidade (tabela), a partir disso, a JPA liga a entidade a uma tabela de mesmo nome no database
+@Table(name = "tb_user") // Nome da tabela do database, renomeando para não dar conflito, pois o nome "user" é reservado
+public class User implements Serializable { // Serializable salva o arquivo em formato binário para poder ser usado posteriormente
 
+    @Id // Informa ao JPA o campo primário da tabela
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Define que o valor primário terá geração de auto incrementação a cada registro no database
     private Long id;
     private String name;
     private String email;
