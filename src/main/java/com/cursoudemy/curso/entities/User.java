@@ -1,12 +1,15 @@
 package com.cursoudemy.curso.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity // Informa que a classe também é uma entidade (tabela), a partir disso, a JPA liga a entidade a uma tabela de mesmo nome no database
-@Table(name = "tb_user") // Nome da tabela do database, renomeando para não dar conflito, pois o nome "user" é reservado
+@Table(name = "tb_user") // Nome da tabela do database, renomeando para não dar conflito
 public class User implements Serializable { // Serializable salva o arquivo em formato binário para poder ser usado posteriormente
 
     @Id // Informa ao JPA o campo primário da tabela
@@ -16,6 +19,10 @@ public class User implements Serializable { // Serializable salva o arquivo em f
     private String email;
     private String phone;
     private String password;
+
+    @JsonIgnore // Annotation para corrigir problemas com o jackson
+    @OneToMany(mappedBy = "client") // Um para muitos, mapeado do outro lado por "client"
+    private List<Order> orders = new ArrayList<>();
 
     public User() {}
 
@@ -67,6 +74,10 @@ public class User implements Serializable { // Serializable salva o arquivo em f
         this.password = password;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,6 +90,5 @@ public class User implements Serializable { // Serializable salva o arquivo em f
     public int hashCode() {
         return Objects.hash(id);
     }
-
 
 }
