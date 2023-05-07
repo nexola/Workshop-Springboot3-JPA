@@ -16,7 +16,6 @@ public class TestConfig implements CommandLineRunner {
     @Autowired // Injeção de dependencia
     private UserRepository userRepository;
 
-
     @Override
     public void run(String... args) throws Exception { // Executa tudo o que estiver dentro desse método quando a aplicação for iniciada
 
