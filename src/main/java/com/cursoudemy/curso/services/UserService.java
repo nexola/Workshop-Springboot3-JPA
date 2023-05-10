@@ -4,6 +4,7 @@ import com.cursoudemy.curso.entities.User;
 import com.cursoudemy.curso.repositories.UserRepository;
 import com.cursoudemy.curso.services.exceptions.DatabaseException;
 import com.cursoudemy.curso.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -42,9 +43,13 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = repository.getReferenceById(id); // Deixa o objeto monitorado para manutenção
-        updateData(entity, obj);
-        return entity;
+        try {
+            User entity = repository.getReferenceById(id); // Deixa o objeto monitorado para manutenção
+            updateData(entity, obj);
+            return entity;
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) {
