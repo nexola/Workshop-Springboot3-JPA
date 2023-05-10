@@ -4,11 +4,10 @@ import com.cursoudemy.curso.entities.User;
 import com.cursoudemy.curso.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController // Retorna os dados gravados no endereço web como JSON ou XML
@@ -30,4 +29,10 @@ public class UserResource {
         return ResponseEntity.ok().body(obj);
     }
 
+    @PostMapping
+    public ResponseEntity<User> insert(@RequestBody User obj) { // RequestBody indica que o recurso não será enviado ou recebido por meio de uma página Web
+        obj = service.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).body(obj);
+    }
 }
